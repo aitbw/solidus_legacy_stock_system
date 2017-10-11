@@ -8,14 +8,6 @@ RSpec.configure do |config|
   # Infer an example group's spec type from the file location.
   config.infer_spec_type_from_file_location!
 
-  # == URL Helpers
-  #
-  # Allows access to Spree's routes in specs:
-  #
-  # visit spree.admin_path
-  # current_path.should eql(spree.products_path)
-  config.include Spree::TestingSupport::UrlHelpers
-
   # == Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -26,13 +18,12 @@ RSpec.configure do |config|
   config.mock_with :rspec
   config.color = true
 
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
-  # Capybara javascript drivers require transactional fixtures set to false, and we use DatabaseCleaner
-  # to cleanup after each test instead.  Without transactional fixtures set to false the records created
-  # to setup a test will be unavailable to the browser, which runs under a separate server instance.
-  config.use_transactional_fixtures = false
+  # Reset our application preferences before each example
+  # This is necessary for tests that set the `track_inventory_levels` preference
+  config.before :each do
+    Spree::Config.instance_variables.each { |iv| Spree::Config.remove_instance_variable(iv) }
+    Spree::Config.preference_store = Spree::Config.default_preferences
+  end
 
   # Ensure Suite is set to use transactions for speed.
   config.before :suite do
@@ -52,4 +43,5 @@ RSpec.configure do |config|
   end
 
   config.fail_fast = ENV['FAIL_FAST'] || false
+  config.order = :random
 end
