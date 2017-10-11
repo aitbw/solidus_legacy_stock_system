@@ -16,8 +16,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", 'LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['test/**/*']
 
-  s.add_dependency 'solidus'
-  s.add_dependency 'solidus_core'
+  s.add_dependency 'solidus_core', ['>= 2.4.x', '< 3.x']
 
   s.add_development_dependency 'database_cleaner'
   s.add_development_dependency 'factory_girl'
