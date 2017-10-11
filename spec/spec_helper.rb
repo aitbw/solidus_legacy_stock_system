@@ -34,6 +34,13 @@ RSpec.configure do |config|
   # to setup a test will be unavailable to the browser, which runs under a separate server instance.
   config.use_transactional_fixtures = false
 
+  # Reset our application preferences before each example
+  # This is necessary for tests that set the `track_inventory_levels` preference
+  config.before :each do
+    Spree::Config.instance_variables.each { |iv| Spree::Config.remove_instance_variable(iv) }
+    Spree::Config.preference_store = Spree::Config.default_preferences
+  end
+
   # Ensure Suite is set to use transactions for speed.
   config.before :suite do
     DatabaseCleaner.strategy = :transaction
