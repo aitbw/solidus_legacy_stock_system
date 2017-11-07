@@ -1,12 +1,22 @@
 SolidusLegacyStockSystem
 ========================
 
-This is the old stock system. This was removed from Solidus in [this Pull
-Request](https://github.com/solidusio/solidus/pull/2199).
+This is the old stock system. This was removed from Solidus in [this pull
+request](https://github.com/solidusio/solidus/pull/2199).
 
+What is in the box?
+------------------
+
+This extension provides the `Adjuster`, `Coordinator`, `Packer`, and
+`Prioritizer` classes that were removed in version 2.4 of Solidus. Relevant
+specs are also included for development and testing continued compatibility with
+core.
 
 Installation
 ------------
+
+There are no migrations to go along with this extension. Following the steps
+below is all that is required to use the legacy system.
 
 Add solidus_legacy_stock_system to your Gemfile:
 
@@ -14,11 +24,10 @@ Add solidus_legacy_stock_system to your Gemfile:
 gem 'solidus_legacy_stock_system'
 ```
 
-Bundle your dependencies and run the installation generator:
+Bundle your dependencies:
 
 ```shell
 bundle
-bundle exec rails g solidus_legacy_stock_system:install
 ```
 
 Testing
