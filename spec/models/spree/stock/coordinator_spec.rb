@@ -55,14 +55,27 @@ module Spree
 
         let!(:variant_1) do
           create(:variant, track_inventory: true).tap do |variant|
-            variant.stock_items.destroy_all
+
+            if Spree.solidus_gem_version >= Gem::Version.new('2.5.0')
+              variant.stock_items.discard_all
+            else
+              variant.stock_items.destroy_all
+            end
+
             stock_item = variant.stock_items.create!(stock_location: stock_location_1)
             stock_item.set_count_on_hand(10)
           end
         end
+
         let!(:variant_2) do
           create(:variant, track_inventory: false).tap do |variant|
-            variant.stock_items.destroy_all
+
+            if Spree.solidus_gem_version >= Gem::Version.new('2.5.0')
+              variant.stock_items.discard_all
+            else
+              variant.stock_items.destroy_all
+            end
+
             stock_item = variant.stock_items.create!(stock_location: stock_location_2)
             stock_item.set_count_on_hand(0)
           end
@@ -118,7 +131,13 @@ module Spree
 
         context 'with no stock locations' do
           let(:location_1_inventory) { 0 }
-          before { variant.stock_items.destroy_all }
+
+          if Spree.solidus_gem_version >= Gem::Version.new('2.5.0')
+            before { variant.stock_items.discard_all }
+          else
+            before { variant.stock_items.destroy_all }
+          end
+
           it_behaves_like "an unfulfillable package"
         end
 
