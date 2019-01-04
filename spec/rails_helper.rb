@@ -11,7 +11,10 @@ SimpleCov.start do
   add_group 'Views', 'app/views'
   add_group 'Libraries', 'lib'
 end
-SimpleCov.minimum_coverage 100
+
+# Coverage can't be 100 because there is some code specific to Solidus v2.6
+# and higher
+SimpleCov.minimum_coverage 90
 
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
