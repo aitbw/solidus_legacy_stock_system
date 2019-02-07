@@ -2,6 +2,8 @@
 # in spec/support/ and its subdirectories.
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 
+FactoryBot.use_parent_strategy = false
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
